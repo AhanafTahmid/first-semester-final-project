@@ -1,3 +1,32 @@
+#include <windows.h>
+#include<stdio.h>
+
+void setColor(int ForgC){
+
+
+    WORD wColor;
+
+    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
+
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+    if(GetConsoleScreenBufferInfo(hStdOut, &csbi)){
+
+        wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
+        SetConsoleTextAttribute(hStdOut, wColor);
+    }
+    return;
+}
+void gotoxy(int x, int y)
+{
+    COORD coord;
+    coord.X = x;
+    coord.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
+
 int select_mode()
 {
     setup();
@@ -5,7 +34,7 @@ int select_mode()
     setColor(238);
 
     gotoxy(15, 14);
-    printf(">  Single Player");
+    printf(">  Log in(As a Shopper)");
 
     setColor(239);
 
@@ -120,4 +149,37 @@ int select_mode()
 
         else if(ch == 32)   return pos;
     }
+}
+
+
+int main(){
+
+
+
+    setColor(238);
+
+    gotoxy(10, 4);
+    printf(">Log in(As a Shopper) :");
+
+    gotoxy(10, 7);
+    printf(">Log in(As a Customer):");
+    setColor(269);
+
+
+    gotoxy(10, 14);
+    printf("> Sign Up(As a Shopper) :");
+
+    gotoxy(10, 17);
+    printf("> Sign Up(As a Customer) :");
+    setColor(269);
+
+
+
+    //gotoxy(15, 20);
+    //printf("   Password  :");
+
+    gotoxy(7, 20);
+    printf("   Home Page");
+    getch();
+    return;
 }
