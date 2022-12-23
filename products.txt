@@ -1,0 +1,7 @@
+3
+potato
+20
+tomato
+10
+onion
+50
