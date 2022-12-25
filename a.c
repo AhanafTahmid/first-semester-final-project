@@ -4,7 +4,6 @@
 void setColor(int ForgC)
 {
 
-
     WORD wColor;
 
     HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
