@@ -279,20 +279,8 @@ int shopper_user_check()
     return -1;
 
 }
-void show_all_product()
-{
-	int i,c;
-	read_products();
-	system("cls");
-	for(i =1,c=14; i <=number_of_products; i++,c+=3) {
 
-             setColor(238);
-             gotoxy(30,c);
-             printf("%d %s %d\n",i,p[i].p_name, p[i].price);
-             sleep(3);
-		//printf("%s\n%d\n%d\n", arr[i].id, arr[i].marks, arr[i].roll);
-	}
-}
+
 
 
 //LOGIN : ENTER IN THE PROFILE SCREEN of shopper
@@ -309,9 +297,9 @@ int s_profile(){
     printf("%s!", s[s_avatar].shop_name);
 
     gotoxy(17, 19);
-    printf("%s", s[s_avatar].name);    setColor(238);
+    printf("%s", s[s_avatar].name);
 
-
+    setColor(238);
 
     gotoxy(65, 14);
     printf(">  Add Product");
@@ -326,7 +314,7 @@ int s_profile(){
     printf("   Delete  Product");
 
     gotoxy(65, 23);
-    printf("  show product");
+    printf("   Show product");
 
     gotoxy(65, 26);
     printf("   Log Out");
@@ -381,15 +369,18 @@ int s_profile(){
             setColor(238);
 
             gotoxy(65, 23);
-            printf(">  show product");
+            printf(">  Show product");
 
             pos++;
         }
         else if(ch == 80 && pos == 3)
         {
+            setColor(239);
             gotoxy(65, 23);
-            printf("  show product");
+            printf("   Show product");
 
+
+            setColor(238);
             gotoxy(65, 26);
             printf(">  Log Out");
 
@@ -400,7 +391,7 @@ int s_profile(){
             setColor(238);
 
             gotoxy(65, 23);
-            printf(">  show product");
+            printf(">  Show product");
 //            gotoxy(65, 20);
 //            printf(">  Delete  Product");
 
@@ -413,11 +404,13 @@ int s_profile(){
         }
         else if(ch == 72 && pos == 3)
         {
+            setColor(238);
             gotoxy(65, 20);
             printf(">  Delete  Product");
 
+            setColor(239);
             gotoxy(65, 23);
-            printf("   show product");
+            printf("   Show product");
 
             pos--;
         }
@@ -457,6 +450,24 @@ int s_profile(){
 
 
 
+
+//Show all products
+void show_all_product()
+{
+	int i,c;
+	read_products();
+	system("cls");
+	for(i =1,c=14; i <=number_of_products; i++,c+=3) {
+
+             setColor(238);
+             gotoxy(30,c);
+             printf("%d %s %d\n",i,p[i].p_name, p[i].price);
+             sleep(1);
+
+		//printf("%s\n%d\n%d\n", arr[i].id, arr[i].marks, arr[i].roll);
+	}
+}
+
 //Read products
 void read_products()
 {
@@ -474,8 +485,8 @@ void read_products()
 
 }
 
-//Write Data
-void s_writeData()//product
+//Write Data for products when shopper add
+void s_writeData()
 {
 	int i;
 	FILE *fp;
@@ -569,6 +580,7 @@ void ss_writeData()//shopper
 	}
 	fclose(fp);
 }
+
 // Delete Product from the price
 void delete_product()
 {
@@ -619,7 +631,7 @@ void  s_saveInfo()
 //######################################################################################################
 
 
-///Customer Read Data
+//Customer Read Data
 void c_readdata()
 {
     int  i;
@@ -638,7 +650,7 @@ void c_readdata()
 }
 
 
-///SIGNUP:  Customer unique ID check
+//SIGNUP:  Customer unique ID check
 int c_uniqueID()
 {
     int i;
@@ -651,7 +663,7 @@ int c_uniqueID()
 }
 
 
-///LOGIN :      Customer UserName check while login
+//LOGIN :      Customer UserName check while login
 int customer_user_check()
 {
 
@@ -671,7 +683,7 @@ int customer_user_check()
 
 
 
-///Customer writeData
+//Customer writeData, Enter input of the customer in the txt file
 void cc_writeData()
 {
     int i;
@@ -684,7 +696,7 @@ void cc_writeData()
 	fclose(fp);
 }
 
-///saving shopper after signup
+//saving Customer after signup
 void  cc_saveInfo()
 {
     int i;
@@ -698,7 +710,6 @@ void  cc_saveInfo()
     printf("Successfully Created %s Account",user_name);
     sleep(2);
 }
-
 
 
 //LOGIN : ENTER IN THE PROFILE SCREEN of the Customer
@@ -810,12 +821,12 @@ int c_profile(){
 
 int search_products(){
     printf("Hell66666666666666666666666666666666666666666666666666o");
-   // sleep(5);
+    sleep(5);
 }
 
 int select_products(){
     printf("select products");
-    //sleep(5);
+    sleep(5);
 }
 
 
@@ -824,10 +835,7 @@ int select_products(){
 
 
 
-
-
-
-
+//##############################################################################################
 int login(int a)
 {
     setup();
@@ -980,7 +988,22 @@ int login(int a)
 
             gotoxy(76, 17);
             scanf("%s",pass);
-            if(customer_user_check()) return login(1);
+
+
+            //if(customer_user_check()) return login(1);
+            c_avatar=customer_user_check();
+//            if(c_avatar<0)
+//            {
+//
+//                return login(1);//shows invalid customer
+//            }
+            //return 1;
+
+
+
+
+            //if(customer_user_check()) return login(1);
+            return 2;
 
         }
         else if(ch == 32)   return pos;
@@ -1168,7 +1191,7 @@ int sign_up(int a)
 
 int main()
 {
-    int f, f1, f2, f3, f4, f5, f6, f7, i, j;
+    int f, f1, f2, f3, f4, f5, f6, f7,f8,f9, i, j;
 
     while(1)
     {
@@ -1177,10 +1200,12 @@ int main()
         if(!f)
         {
             f1 = login(0);
+
+
+
+             //Login screen for shopper
             if(f1==1)
             {
-
-                //f2=s_profile();
                 while(1)
                 {
                     f2=s_profile();
@@ -1202,6 +1227,12 @@ int main()
                 }
             }
 
+
+            //Login screen for customer
+
+
+
+
         }
         else if(f==1)
         {
@@ -1214,10 +1245,7 @@ int main()
             if(f6==2)
             {
                 cc_saveInfo();
-
             }
-
-
         }
         else
         {
