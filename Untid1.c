@@ -715,7 +715,7 @@ void cc_writeData()
 	fclose(fp);
 }
 
-///saving Customer after signup
+///saving shopper after signup
 void  cc_saveInfo()
 {
     int i;
@@ -729,8 +729,6 @@ void  cc_saveInfo()
     printf("Successfully Created %s Account",user_name);
     sleep(2);
 }
-
-
 
 //LOGIN : ENTER IN THE PROFILE SCREEN of the Customer
 
@@ -837,8 +835,6 @@ int c_profile(){
 }
 
 
-
-
 int search_products(){
     printf("Hell66666666666666666666666666666666666666666666666666o");
     sleep(2);
@@ -853,8 +849,6 @@ int c_logout(){
     printf("lllllllllllllllllllllllllllllllllllllllllllllllll");
     sleep(2);
 }
-
-
 
 
 
@@ -1010,8 +1004,7 @@ int login(int a)
 
             gotoxy(76, 17);
             scanf("%s",pass);
-            //if(customer_user_check()) return login(1);
-             c_avatar=customer_user_check();
+            c_avatar=customer_user_check();
 
             if(c_avatar<0)
             {
@@ -1206,7 +1199,7 @@ int sign_up(int a)
 
 int main()
 {
-    int f, f1, f2, f3, f4, f5, f6, f7,f8,f9, i, j;
+    int f, f1, f2, f3, f4, f5, f6, f7, i, j;
 
     while(1)
     {
@@ -1215,9 +1208,6 @@ int main()
         if(!f)
         {
             f1 = login(0);
-
-
-            //login screen of shopper
             if(f1==1)
             {
 
@@ -1239,40 +1229,33 @@ int main()
                     {
                          delete_product();
                     }
-                    else if(f2==3) show_all_product();
+                    else if(f2==3) break;
                 }
             }
-
-
-
-            else if(f1==2){
-                //login screen of Customer
+            else if(f1==2) //login screen of Customer
+            {
 
                 while(1)
                 {
-                    f9=c_profile();
+                    f4=c_profile();
                     //printf("%d 233467246734343",f2);
                     //sleep(10000);
-                    if(f9==0)
+                    if(f4==0)
                     {
                          search_products();
                     }
-                    else if(f9==1)
+                    else if(f4==1)
                     {
                          select_products();
                     }
-                    else if(f9==2)
+                    else if(f4==2)
                     {
-                         c_logout();
+                         break;
                     }
 
                 }
 
             }
-
-
-
-
 
         }
         else if(f==1)
@@ -1281,6 +1264,25 @@ int main()
             if(f6==1)
             {
                 s_saveInfo();
+                while(1)
+                {
+                    f2=s_profile();
+                    //printf("%d 233467246734343",f2);
+                    //sleep(10000);
+                    if(f2==0)
+                    {
+                         add_products();
+                    }
+                    else if(f2==1)
+                    {
+                         update_pricing();
+                    }
+                    else if(f2==2)
+                    {
+                         delete_product();
+                    }
+                    else if(f2==3) break;
+                }
 
             }
             if(f6==2)
@@ -1298,3 +1300,4 @@ int main()
         }
     }
 }
+
