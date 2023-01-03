@@ -548,7 +548,7 @@ int findbyname(char name[]){
 void update_pricing()
 {
     char name[100];
-    int price,m,c;
+    int price,m,c,qn;
 
     system("cls");
     show_all_product();
@@ -557,16 +557,24 @@ void update_pricing()
     printf("How many products you want to update: ");
     scanf("%d",&m);
 
-    for(int j=1,c=14;j<=m;j++,c+=6){
+    for(int j=1,c=14;j<=m;j++,c+=9){
+
         gotoxy(65,c);
         printf("Enter Your Product Name: ");
         scanf(" %[^\n]",name);
+
         gotoxy(65,c+3);
+        printf("input product quenty: ");
+        scanf("%d",&qn);
+
+        gotoxy(65,c+6);
         printf("Enter Your Product Price: ");
         scanf("%d",&price);
+
         int pos = findbyname(name);
 
         if(pos!= -1){
+           p[pos].quenty += qn;
            p[pos].price = price;
         }
         s_writeData();
@@ -588,6 +596,8 @@ void ss_writeData()//shopper
 	}
 	fclose(fp);
 }
+
+
 // Delete Product from the price
 void delete_product()
 {
@@ -689,20 +699,20 @@ int customer_user_check()
     int i;
     c_readdata();
     for(i = 0; i < number_of_customers; i++)
-        if(strcmp(name, c[i].user_name))
+        if(!strcmp(user_name, c[i].user_name))
         {
-            if(strcmp(pass, c[i].pass))    return 1;
-            //return -1;
+            if(!strcmp(pass, c[i].pass))    return i;
+            return -1;
         }
 
-    return 0;
+    return -1;
 
 
 }
 
 
 
-//Customer writeData
+///Customer writeData
 void cc_writeData()
 {
     int i;
@@ -715,7 +725,7 @@ void cc_writeData()
 	fclose(fp);
 }
 
-//saving shopper after signup
+///saving shopper after signup
 void  cc_saveInfo()
 {
     int i;
@@ -841,24 +851,8 @@ int search_products(){
 }
 
 int select_products(){
-    int m,i,j,c;
-    system("cls");
-    show_all_product();
-    setColor(238);
-    gotoxy(65,11);
-    printf("Enter the product amount");
-    scanf("%d",&m);
-    int ar[m+5];
-    for(i=1,c=14;i<=m;i++,c+=3)
-   {
-        setColor(238);
-        gotoxy(65,c);
-        printf("Enter the product ID:");
-        scanf("%d",&ar[i]);
-
-   }
-
-//    sleep(2);
+    printf("select products");
+    sleep(2);
 }
 
 int c_logout(){
@@ -999,7 +993,7 @@ int login(int a)
                 return login(1);//shows invalid user
                 //printf("3333333333333355555555555555555555555555333333333333333333");
             }
-            return 1;
+            return 0;
         }
 
 
@@ -1020,6 +1014,7 @@ int login(int a)
 
             gotoxy(76, 17);
             scanf("%s",pass);
+
             c_avatar=customer_user_check();
 
             if(c_avatar<0)
@@ -1027,9 +1022,13 @@ int login(int a)
 
                 return login(1);//shows invalid user
             }
-            else return 2;
+            else return 1;
 
         }
+//        else if(ch == 32 && pos==2)
+//        {
+//            home_page();
+//        }
         else if(ch == 32)   return pos;
 
     }
@@ -1164,7 +1163,7 @@ int sign_up(int a)
             scanf("%s",pass);
             if(s_uniqueID()) return sign_up(1);
 
-            return 1;
+            return 0;
         }
         else if(ch == 32 && pos==1)
         {
@@ -1191,7 +1190,7 @@ int sign_up(int a)
             gotoxy(76, 20);
             scanf("%s",pass);
             if(c_uniqueID()) return sign_up(1);
-            return 2;
+            return 1;
 
         }
         else if(ch == 32)   return pos;
@@ -1224,12 +1223,15 @@ int main()
         if(!f)
         {
             f1 = login(0);
-            if(f1==1)
+//            printf("%d 44444444",f1);
+//            sleep(2);
+            if(f1==0)
             {
 
                 //f2=s_profile();
                 while(1)
                 {
+
                     f2=s_profile();
                     //printf("%d 233467246734343",f2);
                     //sleep(10000);
@@ -1248,12 +1250,13 @@ int main()
                     else if(f2==3) break;
                 }
             }
-            else if(f1==2) //login screen of Customer
+            else if(f1==1) //login screen of Customer
             {
 
                 while(1)
                 {
                     f4=c_profile();
+
                     //printf("%d 233467246734343",f2);
                     //sleep(10000);
                     if(f4==0)
@@ -1277,37 +1280,64 @@ int main()
         else if(f==1)
         {
             f6=sign_up(0);
-            if(f6==1)
+            if(f6==0)
             {
                 s_saveInfo();
+                s_readdata();
+                s_avatar=number_of_shoppers-1;
                 while(1)
                 {
-                    f2=s_profile();
+
+                    f3=s_profile();
                     //printf("%d 233467246734343",f2);
                     //sleep(10000);
-                    if(f2==0)
+                    if(f3==0)
                     {
                          add_products();
+//                         search_products();
                     }
-                    else if(f2==1)
+                    else if(f3==1)
                     {
-                         update_pricing();
+                        update_pricing();
+//                         select_products();
                     }
-                    else if(f2==2)
+                    else if(f3==2)
                     {
                          delete_product();
                     }
-                    else if(f2==3) break;
+                    else if(f3==3) break;
                 }
 
             }
-            if(f6==2)
+            else if(f6==1)
             {
                 cc_saveInfo();
+                c_readdata();
+                c_avatar=number_of_customers-1;
+                while(1)
+                {
+                    //c_readdata();
+                    f5=c_profile();
+                    //printf("%d 233467246734343",f2);
+                    //sleep(10000);
+                    if(f5==0)
+                    {
+                        search_products();
+//                         add_products();
+                    }
+                    else if(f5==1)
+                    {
+                         select_products();
+//                         update_pricing();
+                    }
+//                    else if(f5==2)
+//                    {
+//                         delete_product();
+//                    }
+                    else if(f5==2) break;
+                }
 
             }
-
-
         }
         else
         {
@@ -1316,4 +1346,5 @@ int main()
         }
     }
 }
+
 
