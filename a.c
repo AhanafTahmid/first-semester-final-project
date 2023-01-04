@@ -46,7 +46,7 @@ struct user
 struct product
 {
     char p_name[100];
-    int id,price,quenty;
+    int id,price,quantity;
 
 } p[700];
 
@@ -63,7 +63,7 @@ void setup()
 
 
 
-
+//Homepage screen(MENU)
 int home_page()
 {
     setup();
@@ -188,7 +188,7 @@ int home_page()
     }
 }
 
-///Shopperrrrrrrrrrrrrrrrrrrrrrrrrrr
+//Shopperrrrrrrrrrrrrrrrrrrrrrrrrrr
 
 //Shopper Read Data
 void s_readdata()
@@ -279,6 +279,8 @@ int shopper_user_check()
     return -1;
 
 }
+
+//Show all the products available in the list
 void show_all_product()
 {
 	int i,c;
@@ -288,11 +290,13 @@ void show_all_product()
 
              setColor(238);
              gotoxy(15,c);
-             printf("%d %s %d %d\n",i,p[i].p_name,p[i].quenty, p[i].price);
+             printf("%d %s %d %d\n",i,p[i].p_name,p[i].quantity, p[i].price);
              Sleep(100);
 		//printf("%s\n%d\n%d\n", arr[i].id, arr[i].marks, arr[i].roll);
 	}
-//	getchar();
+	//gotoxy(15,c+3);
+	//printf("Press enter to continue!!!");
+    //getchar();
 //	getchar();
 }
 
@@ -473,7 +477,7 @@ void read_products()
     for(i=1; i<=number_of_products; i++)
     {
         fscanf(file," %[^\n]",p[i].p_name);
-        fscanf(file," %d",&p[i].quenty);
+        fscanf(file," %d",&p[i].quantity);
         fscanf(file," %d",&p[i].price);
     }
     fclose(file);
@@ -488,7 +492,7 @@ void s_writeData()//product
 	fp = fopen("products.txt", "w");
 	fprintf(fp, "%d\n", number_of_products);
 	for(i = 1; i <=number_of_products; i++) {
-		fprintf(fp, "%s\n%d\n%d\n", p[i].p_name,p[i].quenty, p[i].price);
+		fprintf(fp, "%s\n%d\n%d\n", p[i].p_name,p[i].quantity, p[i].price);
 	}
 	fclose(fp);
 }
@@ -508,12 +512,12 @@ void add_products()
     scanf("%d",&m);
     for(j=0,c=14;j<m;j++,c+=9){
         gotoxy(65,c);
-        printf("input prouduct name: ");
+        printf("input product name: ");
 
         scanf(" %[^\n]",na);
 
         gotoxy(65,c+3);
-        printf("input product quenty: ");
+        printf("input product quantity: ");
         scanf("%d",&qn);
 
         gotoxy(65,c+6);
@@ -523,10 +527,12 @@ void add_products()
         read_products();
         number_of_products++;
         strcpy(p[number_of_products].p_name,na);
-        p[number_of_products].quenty=qn;
+        p[number_of_products].quantity=qn;
         p[number_of_products].price=pr;
         s_writeData();
     }
+    gotoxy(65,c+3);
+	printf("Press enter to continue!!!");
     getchar();
 	getchar();
 }
@@ -564,7 +570,7 @@ void update_pricing()
         scanf(" %[^\n]",name);
 
         gotoxy(65,c+3);
-        printf("input product quenty: ");
+        printf("input product quantity: ");
         scanf("%d",&qn);
 
         gotoxy(65,c+6);
@@ -574,11 +580,13 @@ void update_pricing()
         int pos = findbyname(name);
 
         if(pos!= -1){
-           p[pos].quenty += qn;
+           p[pos].quantity += qn;
            p[pos].price = price;
         }
         s_writeData();
     }
+    gotoxy(65,c+3);
+	printf("Press enter to continue!!!");
     getchar();
 	getchar();
 
@@ -627,6 +635,8 @@ void delete_product()
 
     s_writeData();//Delete Product
 
+    gotoxy(65,c+3);
+	printf("Press enter to continue!!!");
     getchar();
 	getchar();
 }
@@ -653,14 +663,14 @@ void  s_saveInfo()
 //######################################################################################################
 //######################################################################################################
 //######################################################################################################
-///Customerrrrrrrrrrrrrrrrrrrrrrrrrr
+//Customerrrrrrrrrrrrrrrrrrrrrrrrr
 //######################################################################################################
 //######################################################################################################
 //######################################################################################################
 //######################################################################################################
 
 
-///Customer Read Data
+//Customer Read Data
 void c_readdata()
 {
     int  i;
@@ -679,12 +689,12 @@ void c_readdata()
 }
 
 
-///SIGNUP:  Customer unique ID check
+//SIGNUP:  Customer unique ID check
 int c_uniqueID()
 {
     int i;
     c_readdata();
-    ///show();
+    //show();
     for(i = 0; i < number_of_customers; i++)
         if(!strcmp(user_name, c[i].user_name))
             return 1;
@@ -692,7 +702,7 @@ int c_uniqueID()
 }
 
 
-///LOGIN :      Customer UserName check while login
+//LOGIN :      Customer UserName check while login
 int customer_user_check()
 {
 
@@ -712,7 +722,7 @@ int customer_user_check()
 
 
 
-///Customer writeData
+//Customer writeData
 void cc_writeData()
 {
     int i;
@@ -846,18 +856,154 @@ int c_profile(){
 
 
 int search_products(){
-    printf("Hell66666666666666666666666666666666666666666666666666o");
-    sleep(2);
+    //int i,m,j,pr,c,qn;
+    //char na[100];
+
+    system("cls");
+    show_all_product();
+    //setColor(238);
+    //gotoxy(65,11);
+
+    getchar();
+    getchar();
 }
 
+//Select product for customers
 int select_products(){
-    printf("select products");
-    sleep(2);
-}
+    int i,m,j,pr,c,qn,tp=0,pos,pay;
+    char na[100];
 
-int c_logout(){
-    printf("lllllllllllllllllllllllllllllllllllllllllllllllll");
-    sleep(2);
+    system("cls");
+    show_all_product();
+    setColor(238);
+    gotoxy(65,11);
+    printf("How many product you want to buy: ");
+    scanf("%d",&m);
+    for(j=0,c=14;j<m;j++,c+=9){
+        gotoxy(65,c);
+        printf("input product name: ");
+
+        scanf(" %[^\n]",na);
+
+        gotoxy(65,c+3);
+        printf("input product quantity: ");
+        scanf("%d",&qn);
+
+        read_products();
+        //number_of_products++;
+        //strcpy(p[number_of_products].p_name,na);
+        //p[number_of_products].quantity=qn;
+        //p[number_of_products].price=pr;
+        //s_writeData();
+        pos = findbyname(na);
+        p[pos].quantity-=qn;
+       // printf("%d 222222222222",p[pos].quantity);
+
+        if(pos!= -1){
+            if(p[pos].quantity>0){
+                tp += (qn*p[pos].price);
+            }
+            else{
+                setColor(268);
+                gotoxy(65,c+6);
+                printf("Out of Stock");
+            }
+        }
+        else{
+            setColor(268);
+            gotoxy(65,c+6);
+            printf("Product Not available");
+        }
+    }
+
+    setColor(238);
+    gotoxy(65,c+3);
+    printf("Your total pricing is ");
+    setColor(290);
+    printf("%d\n",tp);
+
+    if(tp!=0){
+        setColor(237);
+        gotoxy(65,c+6);
+        printf("Select your choice\n");
+        gotoxy(65,c+9);
+        printf("1.PAY\n");
+        gotoxy(65,c+12);
+        printf("2.Don't PAY ");
+        scanf("%d",&pay);
+        if(pay==1){
+            system("cls");
+            gotoxy(65,c+3);
+            setColor(238);
+
+            printf("T");
+            Sleep(80);
+            printf("H");
+            Sleep(80);
+            printf("A");
+            Sleep(80);
+            printf("N");
+            Sleep(80);
+            printf("K");
+            Sleep(80);
+            printf("S");
+            Sleep(80);
+            printf(" ");
+            Sleep(80);
+            printf("F");
+            Sleep(80);
+            printf("O");
+            Sleep(80);
+            printf("R");
+            Sleep(80);
+            printf(" ");
+            Sleep(80);
+            printf("P");
+            Sleep(80);
+            printf("U");
+            Sleep(80);
+            printf("R");
+            Sleep(80);
+            printf("C");
+            Sleep(80);
+            printf("H");
+            Sleep(80);
+            printf("A");
+            Sleep(80);
+            printf("S");
+            Sleep(80);
+            printf("I");
+            Sleep(80);
+            printf("N");
+            Sleep(80);
+            printf("G");
+            Sleep(300);
+
+
+            //getchar();
+            //getchar();
+            setColor(268);
+            gotoxy(65,c+8);
+            printf("Press enter to continue!!!");
+
+        }
+        else if(pay==2){
+            system("cls");
+            setColor(268);
+            gotoxy(55,c+8);
+            printf("You can't Buy product without paying...Press enter to continue!!!");
+        }
+    }
+    if(tp==0){
+        setColor(268);
+        gotoxy(65,c+8);
+        printf("Press enter to continue!!!");
+    }
+
+
+    getchar();
+    getchar();
+
 }
 
 
@@ -1218,8 +1364,10 @@ int main()
 
     while(1)
     {
+
         f = home_page();
 
+        //For Login
         if(!f)
         {
             f1 = login(0);
@@ -1267,7 +1415,7 @@ int main()
                     {
                          select_products();
                     }
-                    else if(f4==2)
+                    else if(f4==2)//This one is for logout
                     {
                          break;
                     }
@@ -1277,9 +1425,13 @@ int main()
             }
 
         }
+
+        //For signup
         else if(f==1)
         {
             f6=sign_up(0);
+
+            //Sign Up for shoppers
             if(f6==0)
             {
                 s_saveInfo();
@@ -1294,12 +1446,12 @@ int main()
                     if(f3==0)
                     {
                          add_products();
-//                         search_products();
+                            //search_products();
                     }
                     else if(f3==1)
                     {
                         update_pricing();
-//                         select_products();
+                        //select_products();
                     }
                     else if(f3==2)
                     {
@@ -1309,6 +1461,8 @@ int main()
                 }
 
             }
+
+            //Sign Up for customers
             else if(f6==1)
             {
                 cc_saveInfo();
@@ -1338,6 +1492,17 @@ int main()
                 }
 
             }
+        }
+
+        else if(f==2){
+            system("cls");
+            gotoxy(35,10);
+            printf("Irtisum and Ahanaf");
+            setColor(268);
+            gotoxy(35,15);
+            printf("Press enter to Go back!!!");
+            getchar();
+            //Sleep(2000);
         }
         else
         {
